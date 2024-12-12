@@ -18,8 +18,6 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./tabs.page.scss'],
   standalone: true,
   imports: [
-    IonListHeader,
-    IonLabel,
     IonContent,
     IonHeader,
     IonTitle,
@@ -28,15 +26,13 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     FormsModule,
     RouterModule,
-    IonListHeader,
   ],
 })
 export class TabsPage implements OnInit {
   menuItems = [
     { title: 'Home', path: '/tabs/home' },
-    { title: 'Grades', path: '/tabs/grades' },
-    { title: 'Schedule', path: '/tabs/schedule' },
-    { title: 'Tasks', path: '/tabs/tasks' },
+    { title: 'Calificaciones', path: '/tabs/grades' },
+    { title: 'Calendario', path: '/tabs/schedule' },
   ];
   constructor() {}
 
