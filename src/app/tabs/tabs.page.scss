@@ -1,0 +1,17 @@
+.nav-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  padding: 0 10px;
+}
+
+.nav-button {
+  flex: 1;
+  text-transform: none;
+  font-size: 14px;
+  
+  &.active-tab {
+    --color: var(--ion-color-primary);
+    font-weight: bold;
+  }
+}
