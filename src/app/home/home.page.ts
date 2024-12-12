@@ -93,7 +93,7 @@ export class HomePage implements OnInit {
   ngOnInit(): void {}
 
   navigateToSubject(subjectId: string): void {
-    this.router.navigate(['/subject', subjectId]);
+    this.router.navigate([`/tabs/subjects/${subjectId}`]);
   }
 
   getStatusColor(status: string): string {

@@ -1,13 +1,45 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>schedule</ion-title>
+    <ion-title>Horario Académico</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">schedule</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+  <div class="schedule-container">
+    <!-- Days selector -->
+    <div class="days-header">
+      <div 
+        *ngFor="let day of weekDays" 
+        class="day-column"
+        [ngClass]="getDayClasses(day)"
+        (click)="selectDay(day)">
+        {{ day }}
+      </div>
+    </div>
+
+    <!-- Time slots and subjects -->
+    <div class="schedule-grid">
+      <div class="time-column">
+        <div class="time-slot" *ngFor="let time of timeSlots">
+          {{ time }}
+        </div>
+      </div>
+
+      <div class="subjects-grid">
+        <div class="day-column" *ngFor="let day of weekDays">
+          <div class="subject-slot" *ngFor="let time of timeSlots">
+            <div *ngFor="let subject of getSubjectsForDayAndTime(day, time)" class="subject-card">
+              <ion-card>
+                <ion-card-header>
+                  <ion-card-title>{{ subject.name }}</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <p>Profesor: {{ subject.professor }}</p>
+                  <p>Créditos: {{ subject.credits }}</p>
+                </ion-card-content>
+              </ion-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
