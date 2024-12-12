@@ -9,12 +9,12 @@ import {
   IonicRouteStrategy,
   provideIonicAngular,
 } from '@ionic/angular/standalone';
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from './environments/environment';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getAuth, provideAuth } from '@angular/fire/auth';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -22,6 +22,7 @@ bootstrapApplication(AppComponent, {
     provideIonicAngular(),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideFirebaseApp(() => initializeApp(environment.firebaseConfig)),
+    provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
   ],
 });

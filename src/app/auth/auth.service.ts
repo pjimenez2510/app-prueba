@@ -1,5 +1,10 @@
 import { Injectable, inject } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
+import {
+  Auth,
+  signInWithEmailAndPassword,
+  signOut,
+  authState,
+} from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { UserInfo } from 'firebase/auth';
 
@@ -7,25 +12,21 @@ import { UserInfo } from 'firebase/auth';
   providedIn: 'root',
 })
 export class AuthService {
-  private afAuth = inject(AngularFireAuth);
+  private auth = inject(Auth);
 
   async login(email: string, password: string): Promise<any> {
     try {
-      const result = await this.afAuth.signInWithEmailAndPassword(
-        email,
-        password,
-      );
-      return result;
+      return await signInWithEmailAndPassword(this.auth, email, password);
     } catch (error) {
       throw error;
     }
   }
 
   getCurrentUser(): Observable<UserInfo | null> {
-    return this.afAuth.authState;
+    return authState(this.auth);
   }
 
   logout(): Promise<void> {
-    return this.afAuth.signOut();
+    return signOut(this.auth);
   }
 }

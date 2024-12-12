@@ -1,9 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../auth.service'; // Asegúrate de importar el AuthService
+import { Validators } from '@angular/forms';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,31 +17,26 @@ import { AuthService } from '../auth.service'; // Asegúrate de importar el Auth
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule],
 })
-export class LoginPage implements OnInit {
-  group = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-  });
+export class LoginPage {
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
 
-  constructor(private authService: AuthService) { } // Inyecta el servicio de autenticación
+  loginForm!: FormGroup;
 
-  ngOnInit() { }
-
-  async submit() {
-    if (this.group.valid) {
-      const { email, password } = this.group.value;
-      try {
-        const result = await this.authService.login(email, password);
-        console.log('Inicio de sesión exitoso', result);
-        // Puedes redirigir a otra página o manejar la sesión como desees
-      } catch (error) {
-        console.error('Error al iniciar sesión:', error);
-        // Puedes mostrar un mensaje de error al usuario
-      }
-    }
+  constructor() {
+    this.createForm();
   }
 
-  async getUserInfo(uid: string) {
-    // Implementar lógica para obtener la información del usuario si es necesario
+  createForm(): void {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  }
+
+  async submit() {
+    const { email, password } = this.loginForm.value;
+    const result = await this.authService.login(email, password);
+    console.log('Inicio de sesión exitoso', result);
   }
 }

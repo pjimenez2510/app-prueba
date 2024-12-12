@@ -1,6 +1,11 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <div class="d-flex-center">
-    <form [formGroup]="group" class="auth-form" (ngSubmit)="submit()" (keypress.enter)="submit()">
+    <form
+      [formGroup]="loginForm"
+      class="auth-form"
+      (ngSubmit)="submit()"
+      (keypress.enter)="submit()"
+    >
       <ion-img src="assets/logo.png" alt="App Logo" class="auth-logo"></ion-img>
 
       <!-- Campo de correo -->
@@ -10,32 +15,28 @@
           autocomplete="email"
           type="email"
           formControlName="email"
-          placeholder="Ingrese su correo"></ion-input>
+          placeholder="Ingrese su correo"
+        ></ion-input>
       </ion-item>
-      <ion-text color="danger" *ngIf="group.controls.email.invalid && group.controls.email.touched">
-        Por favor, ingrese un correo válido.
-      </ion-text>
 
-      <!-- Campo de contraseña -->
       <ion-item>
         <ion-label position="floating">Contraseña</ion-label>
         <ion-input
           type="password"
           formControlName="password"
-          placeholder="Ingrese su contraseña"></ion-input>
+          placeholder="Ingrese su contraseña"
+        ></ion-input>
       </ion-item>
-      <ion-text color="danger" *ngIf="group.controls.password.invalid && group.controls.password.touched">
-        La contraseña debe tener al menos 6 caracteres.
-      </ion-text>
 
-      <!-- Botón de inicio de sesión -->
-      <ion-button type="submit" expand="block" mode="ios" [disabled]="group.invalid">
+      <ion-button
+        type="submit"
+        expand="block"
+        mode="ios"
+        [disabled]="loginForm.invalid"
+      >
         Ingresar
         <ion-icon slot="end" name="log-in-outline"></ion-icon>
       </ion-button>
-
-      
     </form>
   </div>
 </ion-content>
-
