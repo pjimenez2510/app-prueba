@@ -1,3 +1,45 @@
-<p>
-  task-list works!
-</p>
+<ion-list>
+  <ion-card *ngFor="let assignment of assignments" class="assignment-card">
+    <ion-card-header>
+      <ion-card-title>{{ assignment.title }}</ion-card-title>
+      <ion-card-subtitle>
+        <ion-icon name="calendar-outline"></ion-icon>
+        Fecha de entrega: {{ formatDate(assignment.dueDate) }}
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <p>{{ assignment.description }}</p>
+
+      <div class="assignment-details">
+        <ion-chip [color]="getStatusColor(assignment.status)">
+          <ion-label>{{ assignment.status }}</ion-label>
+        </ion-chip>
+
+        <ion-badge *ngIf="assignment.grade !== null" color="primary">
+          Calificación: {{ assignment.grade }}
+        </ion-badge>
+      </div>
+
+      <div
+        *ngIf="assignment.resources && assignment.resources.length > 0"
+        class="resources-section"
+      >
+        <h4>Recursos:</h4>
+        <ion-list lines="none">
+          <ion-item *ngFor="let resource of assignment.resources">
+            <ion-icon name="document-outline" slot="start"></ion-icon>
+            <ion-label>
+              <a [href]="resource.url" target="_blank">{{ resource.name }}</a>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <div *ngIf="assignment.feedback" class="feedback-section">
+        <h4>Retroalimentación:</h4>
+        <p>{{ assignment.feedback }}</p>
+      </div>
+    </ion-card-content>
+  </ion-card>
+</ion-list>

@@ -1,1 +1,42 @@
-info
+<ion-title>{{ subject?.name || 'Subject Details' }}</ion-title>
+
+<div *ngIf="subject">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>{{ subject.name }}</ion-card-title>
+      <ion-card-subtitle>Professor: {{ subject.professor }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Credits:</strong> {{ subject.credits }}</p>
+      <p>
+        <strong>Schedule:</strong> {{ subject.schedule.day }} - {{
+        subject.schedule.time }}
+      </p>
+      <p><strong>Status:</strong> {{ subject.status }}</p>
+      <p>
+        <strong>Final Grade:</strong> {{ subject.finalGrade || 'Not available'
+        }}
+      </p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Assignments</ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let assignment of subject.assignments">
+      <ion-label>
+        <h2>{{ assignment.title }}</h2>
+        <p>Status: {{ assignment.status }}</p>
+        <p>Due: {{ assignment.dueDate | date }}</p>
+        <p>Grade: {{ assignment.grade || 'Not graded' }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <app-task-list [assignments]="subject.assignments"></app-task-list>
+</div>
+
+<ion-content *ngIf="!subject">
+  <p>Loading subject details...</p>
+</ion-content>
