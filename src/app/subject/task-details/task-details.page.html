@@ -1,13 +1,57 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>task-details</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-card *ngFor="let assignment of assignments">
+  <ion-card-header>
+    <ion-card-subtitle
+      >Fecha Límite: {{ assignment.dueDate | date:'dd/MM/yyyy'
+      }}</ion-card-subtitle
+    >
+    <ion-card-title>{{ assignment.title }}</ion-card-title>
+  </ion-card-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">task-details</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+  <ion-card-content>
+    <div *ngFor="let resource of assignment.resources">
+      <ion-item lines="none">
+        <ion-icon name="document-attach-outline" slot="start"></ion-icon>
+        <ion-label (click)="downloadFile(resource.url)">
+          <a href="#">{{ resource.name }}</a>
+        </ion-label>
+      </ion-item>
+    </div>
+
+    <p>{{ assignment.description }}</p>
+    <ion-item lines="none">
+      <ion-card-subtitle>Estado: {{ assignment.status }}</ion-card-subtitle>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label
+        >Calificación: {{ assignment.grade || 'Sin calificar' }}</ion-label
+      >
+    </ion-item>
+    <ion-item *ngIf="assignment.feedback" lines="none">
+      <ion-label>Retroalimentación: {{ assignment.feedback }}</ion-label>
+    </ion-item>
+
+    <ion-button
+      color="success"
+      expand="block"
+      (click)="selectFile(assignment.id)"
+    >
+      Seleccionar Archivo
+    </ion-button>
+
+    <ion-item
+      *ngIf="selectedFile && selectedAssignmentId === assignment.id"
+      lines="none"
+    >
+      <ion-label>Archivo Seleccionado: {{ selectedFile.name }}</ion-label>
+    </ion-item>
+
+    <ion-button
+      color="primary"
+      expand="block"
+      (click)="uploadTask()"
+      [disabled]="!selectedFile || selectedAssignmentId !== assignment.id"
+    >
+      Subir Entrega
+    </ion-button>
+  </ion-card-content>
+</ion-card>
