@@ -1,1 +1,54 @@
-homej
+<!-- home.page.html -->
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      UTA Academic Portal
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="notifications-outline"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+  <div class="semester-header">
+    <h2>{{ currentSemester.name }}</h2>
+    <p>Bienvenido, {{ currentSemester.user.email }}</p>
+  </div>
+
+  <div class="subjects-container">
+    <ion-card *ngFor="let subject of currentSemester.subjects" 
+              (click)="navigateToSubject(subject.id)"
+              class="subject-card">
+      <ion-card-header>
+        <ion-card-title>{{ subject.name }}</ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <div class="professor-info">
+          <ion-icon name="person-outline"></ion-icon>
+          <span>{{ subject.professor }}</span>
+        </div>
+        
+        <div class="details-grid">
+          <div class="detail-item">
+            <ion-icon name="time-outline"></ion-icon>
+            <span>{{ subject.schedule.day }} {{ subject.schedule.time }}</span>
+          </div>
+          
+          <div class="detail-item">
+            <ion-icon name="school-outline"></ion-icon>
+            <span>{{ subject.credits }} créditos</span>
+          </div>
+        </div>
+        
+        <ion-chip [color]="getStatusColor(subject.status)" class="status-chip">
+          {{ subject.status }}
+        </ion-chip>
+      </ion-card-content>
+    </ion-card>
+  </div>
