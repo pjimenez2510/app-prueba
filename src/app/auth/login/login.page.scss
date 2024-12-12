@@ -1,0 +1,84 @@
+ion-content {
+    --background: #f8f8f8; // Fondo gris claro
+    padding: 0;
+  
+    .d-flex-center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+  
+    .auth-form {
+      width: 90%;
+      max-width: 400px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+  
+    .auth-logo {
+      display: block;
+      margin: 0 auto 20px;
+      width: 100px; // Ajusta el tamaño del logo
+    }
+  
+    ion-item {
+      margin-bottom: 20px;
+    }
+  
+    ion-label {
+      font-size: 14px;
+      color: #555;
+    }
+  
+    ion-input {
+      font-size: 16px;
+      padding: 10px;
+    }
+  
+    ion-text {
+      font-size: 12px;
+      margin-top: 5px;
+    }
+  
+    ion-button {
+      margin-top: 20px;
+      font-size: 16px;
+      padding: 12px;
+      border-radius: 5px;
+    }
+  
+    ion-button[expand="block"] {
+      background-color: #3880ff;
+      color: white;
+    }
+  
+    p {
+      text-align: end;
+      font-size: 14px;
+      color: #888;
+      margin-top: 10px;
+  
+      a {
+        color: #3880ff;
+        text-decoration: none;
+      }
+    }
+  
+    .ion-text-end {
+      margin-top: 10px;
+    }
+  
+    // Estilos para el formulario de registro
+    ion-button[routerLink="sign-up"] {
+      background-color: #28a745; // Color verde para el botón de registro
+    }
+  
+    ion-icon {
+      margin-left: 10px;
+    }
+  }
+  
+  
