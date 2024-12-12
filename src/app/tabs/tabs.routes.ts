@@ -12,21 +12,14 @@ export const routes: Routes = [
           import('../home/home.page').then((m) => m.HomePage),
       },
       {
-        path: 'grades',
-        loadComponent: () =>
-          import('../academic/grades/grades.page').then((m) => m.GradesPage),
+        path: 'subject',
+        loadChildren: () =>
+          import('../subject/subject.routes').then((m) => m.routes),
       },
       {
         path: 'schedule',
         loadComponent: () =>
           import('../schedule/schedule.page').then((m) => m.SchedulePage),
-      },
-      {
-        path: 'tasks',
-        loadComponent: () =>
-          import('../tasks/task-list/task-list.page').then(
-            (m) => m.TaskListPage
-          ),
       },
     ],
   },

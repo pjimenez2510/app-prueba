@@ -28,13 +28,9 @@ import { RouterModule } from '@angular/router';
     RouterModule,
   ],
 })
-export class TabsPage implements OnInit {
+export class TabsPage {
   menuItems = [
     { title: 'Home', path: '/tabs/home' },
-    { title: 'Calificaciones', path: '/tabs/grades' },
     { title: 'Calendario', path: '/tabs/schedule' },
   ];
-  constructor() {}
-
-  ngOnInit() {}
 }
