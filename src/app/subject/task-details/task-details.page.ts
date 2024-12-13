@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -17,10 +17,25 @@ import {
   IonIcon,
   IonList,
   IonListHeader,
+  IonBadge,
+  IonSkeletonText,
+  IonBackButton,
+  IonButtons,
 } from '@ionic/angular/standalone';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { ToastController } from '@ionic/angular';
 import { Assignment, Resource } from 'src/app/models/models';
+import { ActivatedRoute } from '@angular/router';
+import {
+  downloadOutline,
+  calendarOutline,
+  documentOutline,
+  checkmarkCircleOutline,
+  alertCircleOutline,
+  hourglassOutline,
+} from 'ionicons/icons';
+import { addIcons } from 'ionicons';
+import { AcademicService } from 'src/app/services/subject.service';
 
 @Component({
   selector: 'app-task-details',
@@ -44,65 +59,84 @@ import { Assignment, Resource } from 'src/app/models/models';
     IonIcon,
     CommonModule,
     FormsModule,
+    IonBadge,
+    IonSkeletonText,
+    IonBackButton,
+    IonButtons,
   ],
 })
 export class TaskDetailsPage implements OnInit {
   task: Assignment | null = null;
+  loading = true;
+  subjectId: string | null = null;
+  taskId: string | null = null;
 
-  constructor(private toastController: ToastController) {}
+  private route = inject(ActivatedRoute);
+  private academicService = inject(AcademicService);
+  private toastController = inject(ToastController);
 
-  ngOnInit() {
-    this.task = {
-      id: '1',
-      title: 'Math Homework',
-      description: 'Complete exercises 1 to 10 from chapter 3.',
-      dueDate: new Date('2024-12-20'),
-      status: 'Pending',
-      grade: null,
-      feedback: undefined,
-      resources: [
-        {
-          id: 'r1',
-          name: 'Chapter 3 PDF',
-          type: 'document',
-          url: 'https://example.com/chapter3.pdf',
-        },
-        {
-          id: 'r2',
-          name: 'Solution Guide',
-          type: 'document',
-          url: 'https://example.com/solution-guide.pdf',
-        },
-      ],
-    };
+  constructor() {
+    addIcons({
+      downloadOutline,
+      calendarOutline,
+      documentOutline,
+      checkmarkCircleOutline,
+      alertCircleOutline,
+      hourglassOutline,
+    });
   }
 
+  ngOnInit() {
+    // Cambiamos de paramMap a queryParamMap para obtener los query parameters
+    this.route.queryParamMap.subscribe((params) => {
+      this.subjectId = params.get('subjectId');
+      this.taskId = params.get('taskId');
+
+      console.log(this.subjectId, this.taskId);
+
+      if (this.subjectId && this.taskId) {
+        const subject = this.academicService.getSubjectById(this.subjectId);
+        if (subject) {
+          this.task =
+            subject.assignments.find((a) => a.id === this.taskId) || null;
+        }
+      }
+
+      this.loading = false;
+    });
+  }
   async downloadResource(resource: Resource) {
     try {
+      await this.showToast('Iniciando descarga...', 'primary');
+
       const response = await fetch(resource.url);
       const blob = await response.blob();
       const base64Data = await this.blobToBase64(blob);
 
       await Filesystem.writeFile({
-        path: resource.name,
+        path: `tasks/${this.task?.id}/${resource.name}`,
         data: base64Data,
         directory: Directory.Documents,
       });
 
-      const toast = await this.toastController.create({
-        message: `Recurso descargado: ${resource.name}`,
-        duration: 2000,
-        color: 'success',
-      });
-      await toast.present();
+      await this.showToast(`Recurso descargado: ${resource.name}`, 'success');
     } catch (error) {
-      const toast = await this.toastController.create({
-        message: 'Error al descargar el recurso.',
-        duration: 2000,
-        color: 'danger',
-      });
-      await toast.present();
+      console.error('Error downloading resource:', error);
+      await this.showToast(
+        'Error al descargar el recurso. Por favor intente más tarde.',
+        'danger'
+      );
     }
+  }
+
+  private async showToast(message: string, color: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color,
+      position: 'bottom',
+    });
+    await toast.present();
   }
 
   private blobToBase64(blob: Blob): Promise<string> {
@@ -111,6 +145,53 @@ export class TaskDetailsPage implements OnInit {
       reader.onloadend = () => resolve(reader.result as string);
       reader.onerror = reject;
       reader.readAsDataURL(blob);
+    });
+  }
+
+  getStatusColor(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'completed':
+        return 'success';
+      case 'pending':
+        return 'warning';
+      case 'in progress':
+        return 'primary';
+      default:
+        return 'medium';
+    }
+  }
+
+  getStatusIcon(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'completed':
+        return 'checkmark-circle-outline';
+      case 'pending':
+        return 'alert-circle-outline';
+      case 'in progress':
+        return 'hourglass-outline';
+      default:
+        return 'help-circle-outline';
+    }
+  }
+
+  getStatusText(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'completed':
+        return 'Completado';
+      case 'pending':
+        return 'Pendiente';
+      case 'in progress':
+        return 'En Progreso';
+      default:
+        return status;
+    }
+  }
+
+  formatDate(date: Date): string {
+    return new Date(date).toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     });
   }
 }

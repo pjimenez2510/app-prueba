@@ -16,7 +16,7 @@ export const routes: Routes = [
           import('./grades/grades.page').then((m) => m.GradesPage),
       },
       {
-        path: 'task-details/:id', // Corrige el prefijo
+        path: 'task-details', // Corrige el prefijo
         loadComponent: () =>
           import('./task-details/task-details.page').then(
             (m) => m.TaskDetailsPage

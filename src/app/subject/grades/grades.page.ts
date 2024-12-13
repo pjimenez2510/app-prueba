@@ -15,12 +15,22 @@ import {
   IonListHeader,
   IonLabel,
   IonItem,
+  IonBadge,
+  IonIcon,
+  IonButton,
+  IonSkeletonText,
 } from '@ionic/angular/standalone';
-
 import { TaskListComponent } from '../components/task-list/task-list.component';
 import { Assignment, Subject } from 'src/app/models/models';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
-
+import {
+  calendarOutline,
+  timeOutline,
+  schoolOutline,
+  trophyOutline,
+} from 'ionicons/icons';
+import { addIcons } from 'ionicons';
+import { AcademicService } from 'src/app/services/subject.service';
 @Component({
   selector: 'app-grades',
   templateUrl: './grades.page.html',
@@ -48,73 +58,54 @@ import { ActivatedRoute, RouterOutlet } from '@angular/router';
 })
 export class GradesPage implements OnInit {
   subject: Subject | undefined;
+  loading = true;
   route = inject(ActivatedRoute);
+  academicService = inject(AcademicService);
+
+  constructor() {
+    addIcons({
+      calendarOutline,
+      timeOutline,
+      schoolOutline,
+      trophyOutline,
+    });
+  }
 
   ngOnInit() {
     const subjectId = this.route.snapshot.paramMap.get('id');
     if (subjectId) {
-      this.subject = {
-        id: '1',
-        name: 'Programacion Avanzada',
-        professor: 'Dr. Alan Turing',
-        credits: 4,
-        schedule: { day: 'Monday', time: '10:00 AM - 12:00 PM' },
-        status: 'enrolled',
-        finalGrade: 90,
-        assignments: [
-          {
-            id: '1',
-            title: 'Math Homework',
-            description: 'Complete exercises 1 to 10 from chapter 3.',
-            dueDate: new Date('2024-12-20'),
-            status: 'Pending',
-            grade: null,
-            feedback: undefined,
-            resources: [
-              {
-                id: 'r1',
-                name: 'Chapter 3 PDF',
-                type: 'document',
-                url: 'https://example.com/chapter3.pdf',
-              },
-              {
-                id: 'r2',
-                name: 'Solution Guide',
-                type: 'document',
-                url: 'https://example.com/solution-guide.pdf',
-              },
-            ],
-          },
-          {
-            id: '2',
-            title: 'Science Project',
-            description: 'Create a model of the solar system.',
-            dueDate: new Date('2024-12-22'),
-            status: 'In Progress',
-            grade: null,
-            feedback: undefined,
-            resources: [
-              {
-                id: 'r3',
-                name: 'Solar System Facts',
-                type: 'article',
-                url: 'https://example.com/solar-system-facts',
-              },
-            ],
-          },
-          {
-            id: '3',
-            title: 'English Essay',
-            description:
-              "Write an essay on 'The Impact of Technology on Society'.",
-            dueDate: new Date('2024-12-25'),
-            status: 'Completed',
-            grade: 85,
-            feedback: 'Good analysis, but improve sentence structure.',
-            resources: [],
-          },
-        ],
-      };
+      this.subject = this.academicService.getSubjectById(subjectId);
+      this.loading = false;
     }
+  }
+
+  getStatusColor(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'enrolled':
+        return 'success';
+      case 'not enrolled':
+        return 'warning';
+      default:
+        return 'medium';
+    }
+  }
+
+  getStatusText(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'enrolled':
+        return 'Matriculado';
+      case 'not enrolled':
+        return 'No Matriculado';
+      default:
+        return status;
+    }
+  }
+
+  formatDate(date: Date): string {
+    return new Date(date).toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
   }
 }

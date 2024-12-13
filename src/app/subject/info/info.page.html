@@ -2,25 +2,29 @@
   <ion-card>
     <ion-card-header>
       <ion-card-title>{{ subject.name }}</ion-card-title>
-      <ion-card-subtitle>Professor: {{ subject.professor }}</ion-card-subtitle>
+      <ion-card-subtitle>Profesor: {{ subject.professor }}</ion-card-subtitle>
     </ion-card-header>
     <ion-card-content>
-      <p><strong>Credits:</strong> {{ subject.credits }}</p>
+      <a [routerLink]="['/tabs/subject/grades', subject.id]"
+        >Ver Calificaciones</a
+      >
+      <p><strong>Créditos:</strong> {{ subject.credits }}</p>
       <p>
-        <strong>Schedule:</strong> {{ subject.schedule.day }} - {{
+        <strong>Horario:</strong> {{ subject.schedule.day }} - {{
         subject.schedule.time }}
       </p>
-      <p><strong>Status:</strong> {{ subject.status }}</p>
+      <p><strong>Estado:</strong> {{ subject.status }}</p>
       <p>
-        <strong>Final Grade:</strong> {{ subject.finalGrade || 'Not available'
-        }}
+        <strong>Calificación Final:</strong> {{ subject.finalGrade || 'No
+        disponible' }}
       </p>
     </ion-card-content>
   </ion-card>
-
-  <app-task-list [assignments]="subject.assignments"></app-task-list>
+  <app-task-list
+    [assignments]="subject.assignments"
+    [subjectId]="subject.id"
+  ></app-task-list>
 </div>
-
 <ion-content *ngIf="!subject">
-  <p>Loading subject details...</p>
+  <p>Cargando detalles de la materia...</p>
 </ion-content>

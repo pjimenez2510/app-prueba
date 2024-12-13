@@ -52,6 +52,7 @@ import { RouterModule } from '@angular/router';
 })
 export class TaskListComponent {
   @Input() assignments: Assignment[] = [];
+  @Input() subjectId: string = '';
 
   constructor() {
     addIcons({ calendarOutline, documentOutline });
