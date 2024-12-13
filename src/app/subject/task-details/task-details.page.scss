@@ -1,4 +1,5 @@
 .assignment-card {
+<<<<<<< HEAD
   margin: 1rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 
@@ -40,3 +41,78 @@
     margin-bottom: 0.5rem;
   }
 }
+=======
+  margin-bottom: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.assignment-header {
+  background-color: #2727b6;
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.assignment-title {
+  font-size: 1.2em;
+  font-weight: bold;
+  // color: #333;
+}
+
+.due-date {
+  font-size: 0.9em;
+  // color: #888;
+}
+
+/* Estilos para el contenido */
+.assignment-content {
+  padding: 15px;
+  // background-color: #fff;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.assignment-description {
+  font-size: 1em;
+  // color: #555;
+  margin-bottom: 15px;
+}
+
+.resource-list {
+  margin-bottom: 10px;
+}
+
+.resource-icon {
+  color: #007bff;
+}
+
+.resource-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.resource-link:hover {
+  text-decoration: underline;
+}
+
+/* Estilos para el estado y la calificación */
+.status-item, .grade-item, .feedback-item {
+  margin-top: 10px;
+}
+
+.status-item ion-card-subtitle {
+  font-weight: bold;
+  // color: #666;
+}
+
+.grade-item ion-label {
+  font-weight: bold;
+  // color: #333;
+}
+
+.feedback-item ion-label {
+  font-style: italic;
+  // color: #888;
+}
+>>>>>>> 7de2017 (Create task-details)
