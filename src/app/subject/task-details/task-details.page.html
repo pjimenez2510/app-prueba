@@ -1,13 +1,36 @@
-<ion-header [translucent]="true">
+<!-- task-details.page.html -->
+<ion-header>
   <ion-toolbar>
-    <ion-title>task-details</ion-title>
+    <ion-title>{{ task?.title }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">task-details</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+<ion-card *ngIf="task">
+  <ion-card-header>
+    <ion-card-title>{{ task.title }}</ion-card-title>
+    <ion-card-subtitle>Vence: {{ task.dueDate | date }}</ion-card-subtitle>
+  </ion-card-header>
+  <ion-card-content>
+    <p>{{ task.description }}</p>
+    <p><strong>Estado:</strong> {{ task.status }}</p>
+    <p *ngIf="task.grade !== null">
+      <strong>Calificación:</strong> {{ task.grade }}
+    </p>
+    <p *ngIf="task.feedback">
+      <strong>Comentarios:</strong> {{ task.feedback }}
+    </p>
+
+    <ion-list>
+      <ion-list-header>
+        <strong>Recursos</strong>
+      </ion-list-header>
+      <ion-item *ngFor="let resource of task.resources">
+        <ion-label>{{ resource.name }}</ion-label>
+        <ion-button (click)="downloadResource(resource)">
+          <ion-icon slot="start" name="download"></ion-icon>
+          Descargar
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-card-content>
+</ion-card>
