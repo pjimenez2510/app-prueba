@@ -1,5 +1,9 @@
 <ion-list>
-  <ion-card *ngFor="let assignment of assignments" class="assignment-card">
+  <ion-card
+    *ngFor="let assignment of assignments"
+    class="assignment-card"
+    [routerLink]="['/tabs/subject/task-details', assignment.id]"
+  >
     <ion-card-header>
       <ion-card-title>{{ assignment.title }}</ion-card-title>
       <ion-card-subtitle>

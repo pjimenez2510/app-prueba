@@ -22,6 +22,7 @@ import {
 } from '@ionic/angular/standalone';
 import { calendarOutline, documentOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-task-list',
@@ -45,6 +46,7 @@ import { addIcons } from 'ionicons';
     IonIcon,
     IonList,
     IonItem,
+    RouterModule,
   ],
   standalone: true,
 })

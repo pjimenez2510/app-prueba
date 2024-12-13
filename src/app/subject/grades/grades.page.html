@@ -1,13 +1,43 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>grades</ion-title>
+    <ion-title>Calificaciones</ion-title>
   </ion-toolbar>
 </ion-header>
+<div>
+  <ion-list *ngIf="subject">
+    <ion-list-header>
+      <ion-label>Tareas de {{ subject.name }}</ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let assignment of subject.assignments">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ assignment.title }}</ion-card-title>
+          <ion-card-subtitle>
+            Fecha de entrega: {{ assignment.dueDate | date: 'mediumDate' }} -
+            <span
+              [ngClass]="{
+              'text-success': assignment.grade !== null,
+              'text-danger': assignment.grade === null
+            }"
+            >
+              {{ assignment.grade !== null ? 'Calificada' : 'Pendiente' }}
+            </span>
+          </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p *ngIf="assignment.grade !== null">
+            <strong>Calificación:</strong> {{ assignment.grade }}
+          </p>
+          <p *ngIf="assignment.feedback">
+            <strong>Retroalimentación:</strong> {{ assignment.feedback }}
+          </p>
+          <p *ngIf="assignment.grade === null">Aún no calificada.</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </ion-list>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">grades</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+  <p *ngIf="!subject" class="ion-padding">
+    No hay datos disponibles de la materia.
+  </p>
+</div>

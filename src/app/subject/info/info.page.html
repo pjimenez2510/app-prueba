@@ -1,5 +1,3 @@
-<ion-title>{{ subject?.name || 'Subject Details' }}</ion-title>
-
 <div *ngIf="subject">
   <ion-card>
     <ion-card-header>
@@ -19,20 +17,6 @@
       </p>
     </ion-card-content>
   </ion-card>
-
-  <ion-list>
-    <ion-list-header>
-      <ion-label>Assignments</ion-label>
-    </ion-list-header>
-    <ion-item *ngFor="let assignment of subject.assignments">
-      <ion-label>
-        <h2>{{ assignment.title }}</h2>
-        <p>Status: {{ assignment.status }}</p>
-        <p>Due: {{ assignment.dueDate | date }}</p>
-        <p>Grade: {{ assignment.grade || 'Not graded' }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
 
   <app-task-list [assignments]="subject.assignments"></app-task-list>
 </div>
