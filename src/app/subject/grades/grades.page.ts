@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -15,10 +15,14 @@ import {
   IonListHeader,
   IonLabel,
   IonItem,
+<<<<<<< HEAD
   IonBadge,
   IonIcon,
   IonButton,
   IonSkeletonText,
+=======
+  ToastController,
+>>>>>>> c76c265 (Add notifications)
 } from '@ionic/angular/standalone';
 import { TaskListComponent } from '../components/task-list/task-list.component';
 import { Assignment, Subject } from 'src/app/models/models';
@@ -60,6 +64,7 @@ export class GradesPage implements OnInit {
   subject: Subject | undefined;
   loading = true;
   route = inject(ActivatedRoute);
+<<<<<<< HEAD
   academicService = inject(AcademicService);
 
   constructor() {
@@ -77,6 +82,10 @@ export class GradesPage implements OnInit {
       this.subject = this.academicService.getSubjectById(subjectId);
       this.loading = false;
     }
+=======
+  ngOnInit() {
+    const subjectId = this.route.snapshot.paramMap.get('id');
+>>>>>>> c76c265 (Add notifications)
   }
 
   getStatusColor(status: string): string {

@@ -3,13 +3,15 @@
     <ion-title>Calificaciones</ion-title>
   </ion-toolbar>
 </ion-header>
-<div>
+
+<ion-content>
   <ion-list *ngIf="subject">
     <ion-list-header>
       <ion-label>Tareas de {{ subject.name }}</ion-label>
     </ion-list-header>
+
     <ion-item *ngFor="let assignment of subject.assignments">
-      <ion-card>
+      <ion-card class="ion-margin-vertical">
         <ion-card-header>
           <ion-card-title>{{ assignment.title }}</ion-card-title>
           <ion-card-subtitle>
@@ -24,6 +26,7 @@
             </span>
           </ion-card-subtitle>
         </ion-card-header>
+
         <ion-card-content>
           <p *ngIf="assignment.grade !== null">
             <strong>Calificación:</strong> {{ assignment.grade }}
@@ -37,7 +40,7 @@
     </ion-item>
   </ion-list>
 
-  <p *ngIf="!subject" class="ion-padding">
+  <div *ngIf="!subject" class="ion-padding">
     No hay datos disponibles de la materia.
-  </p>
-</div>
+  </div>
+</ion-content>
