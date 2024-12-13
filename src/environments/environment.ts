@@ -4,14 +4,14 @@
 
 export const environment = {
   production: false,
-  firebaseConfig: {
-    apiKey: 'AIzaSyBgSvvm3LOaIxUy37q31WqwMC1bfluJ3LI',
-    authDomain: 'apptestcamino.firebaseapp.com',
-    projectId: 'apptestcamino',
-    storageBucket: 'apptestcamino.firebasestorage.app',
-    messagingSenderId: '856321974977',
-    appId: '1:856321974977:web:376bed6be4cc30aba1aa40',
-  },
+  firebaseConfig : {
+  apiKey: "AIzaSyCbebnUx5gsw7Wvygw8HywrTvmVOUMK0rI",
+  authDomain: "app-qr-cce4f.firebaseapp.com",
+  projectId: "app-qr-cce4f",
+  storageBucket: "app-qr-cce4f.firebasestorage.app",
+  messagingSenderId: "483471733189",
+  appId: "1:483471733189:web:904618febccba9173f1bac"
+},
 };
 
 /*

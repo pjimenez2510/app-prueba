@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Semester } from '../models/models';
+import { HttpClient } from '@angular/common/http';
+
 import { 
  IonHeader, 
   IonToolbar, 
@@ -23,6 +25,7 @@ import {
   schoolOutline,
   chevronForwardOutline, personOutline } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
+import { UtilService } from '../services/util.service';
 
 @Component({
   selector: 'app-home',
@@ -34,7 +37,6 @@ CommonModule,
     IonHeader,
     IonToolbar,
     IonTitle,
-    IonContent,
     IonButtons,
     IonButton,
     IonIcon,
@@ -44,53 +46,45 @@ CommonModule,
     IonCardContent,
     IonChip
   ],
+  providers: [HttpClient]
 })
 export class HomePage implements OnInit {
-  currentSemester: Semester = {
-    name: 'Semestre 2024-1',
-    subjects: [
-      {
-        id: '1',
-        name: 'Programación Avanzada',
-        professor: 'Dr. Juan Pérez',
-        credits: 4,
-        schedule: { day: 'Lunes', time: '08:00 - 10:00' },
-        status: 'enrolled',
-        finalGrade: null,
-        assignments: []
-      },
-      {
-        id: '2',
-        name: 'Bases de Datos',
-        professor: 'Dra. María González',
-        credits: 4,
-        schedule: { day: 'Martes', time: '10:00 - 12:00' },
-        status: 'enrolled',
-        finalGrade: null,
-        assignments: []
-      },
-      {
-        id: '3',
-        name: 'Desarrollo Web',
-        professor: 'Ing. Carlos Rodríguez',
-        credits: 3,
-        schedule: { day: 'Miércoles', time: '14:00 - 16:00' },
-        status: 'enrolled',
-        finalGrade: null,
-        assignments: []
-      }
-    ],
-    user: {
-      email: 'estudiante@uta.edu.ec',
-      password: '******'
-    }
-  };
-
-  constructor(private router: Router) {
-    addIcons({notificationsOutline,personCircleOutline,personOutline,timeOutline,schoolOutline,chevronForwardOutline});
+  currentSemester!: Semester; // Cambiado a undefined inicialmente para esperar los datos
+  loading: boolean = true;   // Bandera para mostrar una indicación de carga
+  errorMessage: string | null = null; // Para manejar errores en la carga
+  router = inject(Router);
+  utilService = inject(UtilService);
+  constructor(
+  ) {
+    addIcons({
+      notificationsOutline,
+      personCircleOutline,
+      personOutline,
+      timeOutline,
+      schoolOutline,
+      chevronForwardOutline
+    });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadSemester();
+  }
+
+  // Método para cargar el semestre
+  private loadSemester(): void {
+    this.utilService.getAll('semesters').subscribe({
+      next: (data) => {
+        // Asumimos que data es un array, tomamos el primer semestre
+        this.currentSemester = data[0] as Semester;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error al cargar el semestre:', err);
+        this.errorMessage = 'Error al cargar los datos. Por favor, inténtelo nuevamente.';
+        this.loading = false;
+      }
+    });
+  }
 
   navigateToSubject(subjectId: string): void {
     this.router.navigate([`/tabs/subject/info/${subjectId}`]);

@@ -16,7 +16,9 @@ export class AuthService {
 
   async login(email: string, password: string): Promise<any> {
     try {
-      return await signInWithEmailAndPassword(this.auth, email, password);
+      const response = await signInWithEmailAndPassword(this.auth, email, password);
+      localStorage.setItem('uuid', response.user.uid);
+      return response
     } catch (error) {
       throw error;
     }
