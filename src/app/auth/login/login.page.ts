@@ -9,6 +9,7 @@ import {
 import { IonicModule } from '@ionic/angular';
 import { Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,7 @@ import { AuthService } from '../auth.service';
 export class LoginPage {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
+  private router = inject(Router);
 
   loginForm!: FormGroup;
 
@@ -36,7 +38,9 @@ export class LoginPage {
 
   async submit() {
     const { email, password } = this.loginForm.value;
-    const result = await this.authService.login(email, password);
+    const result = await this.authService.login(email, password).then(() => {
+      this.router.navigate(['/tabs/home']);
+    });
     console.log('Inicio de sesión exitoso', result);
   }
 }

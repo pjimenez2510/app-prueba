@@ -55,7 +55,7 @@ export class GradesPage implements OnInit {
     if (subjectId) {
       this.subject = {
         id: '1',
-        name: 'Mathematics',
+        name: 'Programacion Avanzada',
         professor: 'Dr. Alan Turing',
         credits: 4,
         schedule: { day: 'Monday', time: '10:00 AM - 12:00 PM' },
