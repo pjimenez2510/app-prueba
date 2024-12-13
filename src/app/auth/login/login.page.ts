@@ -1,20 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { Validators } from '@angular/forms';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule],
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
+  private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
 
-  constructor() { }
+  loginForm!: FormGroup;
 
-  ngOnInit() {
+  constructor() {
+    this.createForm();
   }
 
+  createForm(): void {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+    });
+  }
+
+  async submit() {
+    const { email, password } = this.loginForm.value;
+    const result = await this.authService.login(email, password);
+    console.log('Inicio de sesión exitoso', result);
+  }
 }

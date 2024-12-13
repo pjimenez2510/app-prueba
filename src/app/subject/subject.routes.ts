@@ -7,16 +7,16 @@ export const routes: Routes = [
     component: SubjectPage,
     children: [
       {
-        path: 'info',
+        path: 'info/:id', // Corrige el prefijo
         loadComponent: () => import('./info/info.page').then((m) => m.InfoPage),
       },
       {
-        path: 'grades',
+        path: 'grades/:id',
         loadComponent: () =>
           import('./grades/grades.page').then((m) => m.GradesPage),
       },
       {
-        path: 'task-details:id',
+        path: 'task-details/:id', // Corrige el prefijo
         loadComponent: () =>
           import('./task-details/task-details.page').then(
             (m) => m.TaskDetailsPage
@@ -24,5 +24,5 @@ export const routes: Routes = [
       },
     ],
   },
-  { path: '', redirectTo: '/tabs/subject/info', pathMatch: 'full' },
+  { path: '', redirectTo: '/tabs/home', pathMatch: 'full' }, // Mejor redirigir a Home
 ];
